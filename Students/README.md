@@ -4,7 +4,7 @@
 ## Graduate Students
 
 * Austin Taghavi, [ataghavi](https://github.com/ATaghavi)
-
+* Richard,[richarddoss](https://github.com/richarddoss)
 
 ## Teaching Team
 
