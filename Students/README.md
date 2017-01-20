@@ -15,6 +15,7 @@
 * Jianan Liu,[jiananliu22] (https://github.com/jiananliu22)
 * Digveer, [digveer] (https://github.com/digveer)
 * Kiran Kumar, [gvkk123] (https://github.com/gvkk123)
+* Tim Woodbury, [fatadama] (https://github.com/fatadama)
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
