@@ -14,6 +14,7 @@
 * Xiaoqian Jia,[xiaoqianjia] (https://github.com/xiaoqianjia)
 * Jianan Liu,[jiananliu22] (https://github.com/jiananliu22)
 * Digveer, [digveer] (https://github.com/digveer)
+* Kiran Kumar, [gvkk123] (https://github.com/gvkk123)
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
