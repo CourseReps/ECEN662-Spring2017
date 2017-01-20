@@ -9,7 +9,7 @@
 * Austin Taghavi, [ataghavi](https://github.com/ATaghavi)
 * Travis Taghavi, [travistag](https://github.com/travistag)
 * Richard,[richarddoss](https://github.com/richarddoss)
-
+* Xiaoqian Jia,[xiaoqianjia] (https://github.com/xiaoqianjia)
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
