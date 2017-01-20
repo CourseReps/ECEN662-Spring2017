@@ -13,6 +13,7 @@
 * Richard,[richarddoss](https://github.com/richarddoss)
 * Xiaoqian Jia,[xiaoqianjia] (https://github.com/xiaoqianjia)
 * Jianan Liu,[jiananliu22] (https://github.com/jiananliu22)
+* Digveer, [digveer] (https://github.com/digveer)
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
