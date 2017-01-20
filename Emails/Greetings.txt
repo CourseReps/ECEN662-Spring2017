@@ -9,4 +9,4 @@ You will find below a copy of the syllabus; it is also available through the Git
 Best regards,
 Jean-Francois Chamberland
 
-PS: Git repository for the course: https://github.com/CourseReps/ECEN303-Fall2016
+PS: Git repository for the course: https://github.com/CourseReps/ECEN662-Spring2017
