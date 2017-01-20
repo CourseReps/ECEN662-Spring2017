@@ -2,6 +2,7 @@
 
 
 ## Graduate Students
+* Virisha Timmaraju, [virisha22] (https://github.com/virisha22)
 * Yixiao Feng, [yixiao-feng] (https://github.com/yixiao-feng)
 * Vikas Varma, [vikasvarma21] (https://github.com/vikasvarma21)
 * Jyothsna, [KJyotsna](https://github.com/KJyotsna)
