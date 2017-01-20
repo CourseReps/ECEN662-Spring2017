@@ -2,6 +2,7 @@
 
 
 ## Graduate Students
+* Jyothsna, [KJyotsna](https://github.com/KJyotsna)
 * Chongzhi Zhao, [PaulZhaoSamuel](https://github.com/PaulZhaoSamuel)
 * Viswam Nathan, [viswamnathanTAMU](https://github.com/viswamnathanTAMU)
 * Austin Taghavi, [ataghavi](https://github.com/ATaghavi)
