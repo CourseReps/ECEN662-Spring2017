@@ -1,0 +1,12 @@
+Greetings,
+
+I would like to welcome you back to campus. You are receiving this message because you are currently registered for ECEN 662-600, Random Signals and Systems. Lectures are scheduled to take place on Monday, Wednesday, and Friday from 1:50 pm to 2:40 pm in ETB 1003. There is no required book for this course. Instead, I will use notes and reading assignments to teach the course. To get the most out of the course, you should complete the reading assignments before the corresponding lecture. Also, to help you with the discipline that this requires, you may be quizzed on the material from time to time. While purchasing a textbook for the class is optional, I strongly suggest that you download a copy of Information Theory, Inference, and Learning Algorithms by David MacKay.
+
+http://www.inference.phy.cam.ac.uk/itprnn/book.html
+
+You will find below a copy of the syllabus; it is also available through the GitHub
+
+Best regards,
+Jean-Francois Chamberland
+
+PS: Git repository for the course: https://github.com/CourseReps/ECEN303-Fall2016
