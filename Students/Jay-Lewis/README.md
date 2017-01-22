@@ -1,5 +1,5 @@
 # Identity
 
-* Name: Travis Taghavi
-* GitHubID: travistag
-* NetID: travistag
+* Name: Justin Lewis
+* GitHubID: Jay-Lewis
+* NetID: justin94lewis
