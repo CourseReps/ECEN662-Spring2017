@@ -16,6 +16,7 @@
 * Digveer, [digveer] (https://github.com/digveer)
 * Kiran Kumar, [gvkk123] (https://github.com/gvkk123)
 * Tim Woodbury, [fatadama] (https://github.com/fatadama)
+* Saurav Kumar Sahu, [Saurav2k17] (https://github.com/Saurav2k17)
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
