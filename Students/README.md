@@ -17,6 +17,10 @@
 * Kiran Kumar, [gvkk123] (https://github.com/gvkk123)
 * Tim Woodbury, [fatadama] (https://github.com/fatadama)
 * Saurav Kumar Sahu, [Saurav2k17] (https://github.com/Saurav2k17)
+
+## Undergraduate Students
+* Justin Lewis, [Jay-Lewis](https://github.com/Jay-Lewis)
+
 ## Teaching Team
 
 * Jean-Francois Chamberland, [chmbrlnd](https://github.com/chmbrlnd)
