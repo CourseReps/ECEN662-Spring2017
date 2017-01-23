@@ -18,6 +18,7 @@
 * Tim Woodbury, [fatadama] (https://github.com/fatadama)
 * Saurav Kumar Sahu, [Saurav2k17] (https://github.com/Saurav2k17)
 * Nagaraj T Janakiraman [tjnagaraj] (https://github.com/tjnagaraj)
+* Kai He [KaiHe08] (https://github.com/KaiHe08)
 
 ## Undergraduate Students
 * Justin Lewis, [Jay-Lewis](https://github.com/Jay-Lewis)
