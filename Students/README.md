@@ -21,6 +21,7 @@
 * Daniel Whitten, [dwhit15] (https://github.com/dwhit15)
 * Kai He [KaiHe08](https://github.com/KaiHe08)
 * Yukun Tan, [yukun0824](https://github.com/yukun0824)
+* Rayan El Helou, [rayanelhelou](https://github.com/rayanelhelou)
 
 ## Undergraduate Students
 * Justin Lewis, [Jay-Lewis](https://github.com/Jay-Lewis)
