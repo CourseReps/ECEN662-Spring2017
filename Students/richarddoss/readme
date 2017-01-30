@@ -3,3 +3,4 @@ netid: richarddoss07195
 githubid: richarddoss
 
 Challenge1 added : plotting the ROC curves for cauchy and laplace distribution.
+Challenge updated with python code for plotting ROC curves for shifted mean gaussian.
