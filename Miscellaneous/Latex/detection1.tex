@@ -1,0 +1,31 @@
+\documentclass[crop,tikz]{standalone}
+
+\usepackage{pgfplots}
+\begin{document}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\begin{tikzpicture}
+\begin{axis}[
+  no markers, domain=-3:6, samples=181,
+  axis lines*=left,
+  xlabel=$x$, ylabel=$y$,
+  every axis y label/.style={at=(current axis.above origin),anchor=south},
+  every axis x label/.style={at=(current axis.right of origin),anchor=west},
+  height=5cm, width=12cm,
+  xtick={0,3}, ytick=\empty,
+  enlargelimits=false, clip=false, axis on top,
+  grid = major
+  ]
+  \addplot [line width=1.5pt,fill=blue!40, draw=none, domain=2:6] {gauss(3,1)} \closedcycle;
+  \addplot [line width=1.5pt,black] {gauss(3,1)};
+  \addplot [line width=1.5pt,black] {gauss(0,1)};
+
+
+\draw [yshift=-0.6cm, latex-latex](axis cs:3,0) -- node [fill=white] {$1.96\sigma$} (axis cs:4.96,0);
+\end{axis}
+
+\end{tikzpicture}
+\end{document}
