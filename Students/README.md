@@ -10,7 +10,7 @@
 * Jyothsna, [KJyotsna](https://github.com/KJyotsna)
 * Justin Lewis, [Jay-Lewis](https://github.com/Jay-Lewis)
 * Richard,[richarddoss](https://github.com/richarddoss)
-* Paul McVay,
+* Paul McVay, PaulMcVay
 * Vikas Varma, [vikasvarma21] (https://github.com/vikasvarma21)
 * Viswam Nathan, [viswamnathanTAMU](https://github.com/viswamnathanTAMU)
 * Saurav Kumar Sahu, [Saurav2k17] (https://github.com/Saurav2k17)
