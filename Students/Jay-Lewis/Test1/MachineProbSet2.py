@@ -34,5 +34,6 @@ for observation in array:
 
     H.append(hypothesis)
 
-H = pd.DataFrame({'Y':H})
-H.to_csv("Answer2.csv")
+H = pd.DataFrame({'Z':H})
+gitID = "Jay-Lewis"
+H.to_csv("Test1Answer2_"+gitID+".csv")
