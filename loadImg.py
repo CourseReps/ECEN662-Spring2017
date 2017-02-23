@@ -41,7 +41,7 @@ def loadImg(filepath,iname):
     img = ndimage.imread(filepath+iname)
     return img
     
-def loadNatural(i):
+def loadScene(i):
     """Load an image from the set of natural images
     
     These are not ordered sequentially, so we use the system ordering
@@ -92,9 +92,9 @@ def test():
     plt.imshow(img)
     plt.show()
     print("Load natural image")
-    img = loadNatural(2)
+    img = loadScene(2)
     import matplotlib.pyplot as plt
-    plt.figure("Natural Scene 2")
+    plt.figure("Natural scene 2")
     plt.imshow(img)
     plt.show()
     return
