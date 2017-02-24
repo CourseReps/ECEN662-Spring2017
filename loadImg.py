@@ -106,7 +106,8 @@ def im2intensity(im):
     io : N x M array
         output in intensity space
     """
-    io = np.sqrt(np.sum(np.power(im,2.0),axis=2))
+    io = 0.2989 * im[:,:,0] + 0.5870 * im[:,:,1] + 0.1140 * im[:,:,2]
+    #io = np.sqrt(np.sum(np.power(im.astype(float),2.0),axis=2)/3.0)
     '''
     io = np.zeros((im.shape[0],im.shape[1]))
     for k in range(im.shape[0]):

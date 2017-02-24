@@ -9,6 +9,7 @@ Spyder Editor
 import numpy as np
 from loadImg import *
 import matplotlib.pyplot as plt
+from PIL import Image
 
 # GLOBAL: training set size
 TrainingSize = 23
@@ -130,10 +131,10 @@ def testPlotFFT(iu=1):
     """ Plot the FFT and a histogram of FFT values for scene and synthetic 
     image at index 'iu'
     """
-    im2 = loadSynthetic(iu)
-    im = loadScene(iu)
-    ff2 = np.fft.fft2(im2)
-    ff = np.fft.fft2(im)
+    im2 = im2intensity(loadSynthetic(iu))
+    im = im2intensity(loadScene(iu))
+    ff2 = np.fft.fft2(np.pad(im2,5,'constant',constant_values=0))
+    ff = np.fft.fft2(np.pad(im,5,'constant',constant_values=0))
     logff = np.log10(np.abs(ff))
     logff2 = np.log10(np.abs(ff2))
     
@@ -200,11 +201,114 @@ def testFFT():
     ax[1].set_title('Predicted probability of error with equal priors')
     print("Total predicted probability of error: %f" % (np.sum(perr*binwidth)))
     
+    # export bins values to file
+    outv = np.vstack((barx,hist2,hist1)).transpose()
+    print(outv.shape)
+    np.savetxt('fftBins.txt',outv,delimiter=',',header='log_10(fft magnitude),synthetic pmf,scene pmf')
+    
     plt.show()
+    
+def trialFFT():
+    dat = np.genfromtxt('fftBins.txt',delimiter=',')
+    print(dat)
+    falsePositives = 0
+    for k in range(len(SceneList)):
+        io = im2intensity(loadScene(k+1))
+        logff = np.log10(np.fft.fft2(im))
+        np.histogram(logff,bins=dat[:,0])
+        print(k,metric)
+        if (metric >= xlower) and (metric <= xupper):
+            # synthetic image detected
+            falsePositives = falsePositives + 1
+            print("False positive")
+    print("%d false positives out of %d" % (falsePositives,len(SceneList)))
+    pass
+
+def trainIntensityHistogram():
+    bins = np.arange(0,255.0001,8)
+    barx = np.diff(bins)*0.5 + bins[:-1]
+    
+    sceneValues = np.zeros((TrainingSize,))
+    for h in range(TrainingSize):
+        im = im2intensity(loadScene(h+1))
+        imhist = np.histogram(im.flatten(),bins=bins)[0]
+        # normalize
+        imhist = imhist.astype(float)/np.sum(imhist)
+        # compute the diff
+        m = np.sum(np.abs(np.diff(imhist)))
+        sceneValues[h] = m
+    print('----')
+    syntheticValues = np.zeros((TrainingSize,))
+    for h in range(TrainingSize):
+        im = im2intensity(loadSynthetic(h+1))
+        imhist = np.histogram(im.flatten(),bins=bins)[0]
+        # normalize
+        imhist = imhist.astype(float)/np.sum(imhist)
+        # compute the diff
+        m = np.sum(np.abs(np.diff(imhist)))
+        syntheticValues[h] = m
+        
+    bins2 = np.arange(0.0,1.00001,0.1)
+    # TODO likelihood ratio
+    lb = np.max(sceneValues)
+    ub = np.min(syntheticValues)
+    print("(%f,%f)" % (lb,ub))
+    cutoff = np.mean((lb,ub))
+    print("%f" % cutoff)
+    plt.figure()
+    plt.hist(sceneValues,bins2)
+    plt.hist(syntheticValues,bins2,rwidth=0.5)
+    plt.show()
+
+def trialIntensityHistogram(cutoff=0.729):
+    """
+    Works well for case of no specular reflections only
+    
+    Use 0.554 for the specular reflections, works OK but not great
+    """
+    bins = np.arange(0,255.0001,8)
+    barx = np.diff(bins)*0.5 + bins[:-1]
+    
+    sceneValues = np.zeros((len(SceneList),))
+    for h in range(len(SceneList)):
+        im = im2intensity(loadScene(h+1))
+        imhist = np.histogram(im.flatten(),bins=bins)[0]
+        # normalize
+        imhist = imhist.astype(float)/np.sum(imhist)
+        # compute the diff
+        m = np.sum(np.abs(np.diff(imhist)))
+        sceneValues[h] = m
+    performance = np.zeros(sceneValues.shape)
+    performance[sceneValues <= cutoff] = 0.0
+    performance[sceneValues > cutoff] = 1.0
+    syntheticValues = np.zeros((99,))
+    for h in range(99):
+        im = im2intensity(loadSynthetic(h+1))
+        imhist = np.histogram(im.flatten(),bins=bins)[0]
+        # normalize
+        imhist = imhist.astype(float)/np.sum(imhist)
+        # compute the diff
+        m = np.sum(np.abs(np.diff(imhist)))
+        syntheticValues[h] = m
+    performance2 = np.zeros(syntheticValues.shape)
+    performance2[syntheticValues <= cutoff] = 0.0
+    performance2[syntheticValues > cutoff] = 1.0
+    
+    print("False positive rate: %d of %d" % (np.sum(performance),len(performance)))
+    print("True detection rate: %d of %d" % (np.sum(performance2),len(performance2)))
+    '''
+    plt.figure()
+    plt.hist(sceneValues)
+    plt.hist(syntheticValues,rwidth=0.5)
+    ''' 
+    pass
 
 if __name__ == '__main__':
     #testMeanGradient()
     #testPlotFFT(10)
-    #testFFT() 
-    trialMeanGradient()
+    #testFFT()
+    #trialFFT()
+    #trialMeanGradient()
+    trainIntensityHistogram()
+    #trialIntensityHistogram(.528)
     pass
