@@ -4,6 +4,18 @@ Created on Thu Feb 16 15:52:11 2017
 
 @author: fatadama
 @brief: use the INI file to load test images into numpy arrays
+
+HOW TO USE
+----
+- Download the training data folders into the same folder
+- Modify "settings.ini" to indicate the relative file path from this script's
+    folder to the root directory of the training data
+- Run this file to perform test reads from the synthetic and scene image sets
+
+Example use: download the training sets to "~/ecen_data/TrainingSetScenes" and 
+    "~/ecen_data/TrainingSetSynthetic". Download this file to "~/ecen_python". 
+    Modify the "filepath" value in settings.ini to "../ecen_data". Then run
+    this script to test/.
 """
 
 import numpy as np
@@ -80,6 +92,28 @@ def loadSynthetic(i,spec=False):
         iname = i
     img = loadImg(FilePath+'/TrainingSetSynthetic/',iname)
     return img
+    
+def im2intensity(im):
+    """ Convert an RGB image to intensity space
+    
+    Parameters
+    ----
+    im : N x M x 3 array
+        input image in RGB space
+    
+    Returns
+    ----
+    io : N x M array
+        output in intensity space
+    """
+    io = np.sqrt(np.sum(np.power(im,2.0),axis=2))
+    '''
+    io = np.zeros((im.shape[0],im.shape[1]))
+    for k in range(im.shape[0]):
+        for j in range(im.shape[1]):
+            io[k,j] = np.sqrt(np.sum(np.power(im[k,j,:],2.0)))
+    '''
+    return io
 
 def test():
     """
