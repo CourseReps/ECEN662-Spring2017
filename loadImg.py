@@ -20,6 +20,7 @@ Example use: download the training sets to "~/ecen_data/TrainingSetScenes" and
 
 import numpy as np
 from scipy import ndimage
+from scipy import misc
 import sys
 import os
 
@@ -39,7 +40,7 @@ FilePath = config.get('directory','filepath')
 # GLOBAL list of natural scenes - only load once
 SceneList = os.listdir(FilePath+'/TrainingSetScenes/')
 
-def loadImg(filepath,iname):
+def loadImg(filepath,iname,sz=None):
     """Load an image from the data set
     
     Parameters
@@ -51,9 +52,22 @@ def loadImg(filepath,iname):
     """
     # load image
     img = ndimage.imread(filepath+iname)
+    # resize image if desired
+    if sz is not None:
+        if sz[0] < sz[1]:
+            if img.shape[0] < img.shape[1]:
+                im = misc.imresize(img,size=sz)
+            else:
+                im = misc.imresize(img.transpose(),size=sz)
+        else:
+            if img.shape[0] > img.shape[1]:
+                im = misc.imresize(img,size=sz)
+            else:
+                im = misc.imresize(img.transpose(),size=sz)
+        return im
     return img
     
-def loadScene(i):
+def loadScene(i,sz=None):
     """Load an image from the set of natural images
     
     These are not ordered sequentially, so we use the system ordering
@@ -68,10 +82,10 @@ def loadScene(i):
         iname = i
     else:
         iname = SceneList[i-1]
-    img = loadImg(FilePath+'/TrainingSetScenes/',iname)
+    img = loadImg(FilePath+'/TrainingSetScenes/',iname,sz)
     return img
 
-def loadSynthetic(i,spec=False):
+def loadSynthetic(i,sz=None,spec=False):
     """ Load an image from the training set
     
     Parameters
@@ -90,7 +104,7 @@ def loadSynthetic(i,spec=False):
             iname = 'image%d_spec.png' % (i)
     else:
         iname = i
-    img = loadImg(FilePath+'/TrainingSetSynthetic/',iname)
+    img = loadImg(FilePath+'/TrainingSetSynthetic/',iname,sz)
     return img
     
 def im2intensity(im):
