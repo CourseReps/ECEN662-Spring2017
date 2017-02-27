@@ -15,6 +15,12 @@ from scipy import stats
 
 # GLOBAL: training set size
 TrainingSize = 23
+# FIG WIDTH (total width)
+figwidth = 11.0
+# FIG HEIGHT (per subplot)
+figheight = 2.8
+# fontsize
+fontsize = 12
 
 def loadImgPlotGradient():
     """ Load a scene and a synthetic image and plot the intensity gradients for
@@ -610,13 +616,13 @@ def tryEdgeDetection():
     """ Load a scene and a synthetic image and plot the intensity gradients for
     each
     """
-    bins = np.arange(0.0,128.0001,4)
+    bins = np.arange(0.0,56.0001,2)
     barx = np.diff(bins)*0.5 + bins[:-1]
     binwidth = np.mean(np.diff(bins))
     
-    sz = [550,970]
+    sz = [540,960]
     
-    fig,ax = plt.subplots(1,1)
+    fig,ax = plt.subplots(1,1,figsize=(figwidth,figheight))
     
     valSynthetic = np.zeros((TrainingSize,sz[0],sz[1]))
     valScene = np.zeros((TrainingSize,sz[0],sz[1]))
@@ -633,22 +639,27 @@ def tryEdgeDetection():
     
     print(barx)
     
-    ax.bar(barx,barScene,width=binwidth,color='blue')
-    ax.bar(barx+0.25*binwidth,barSynthetic,width=0.5*binwidth,color='green')
+    scene = ax.bar(bins[:-1],barScene,width=binwidth,color='blue')
+    synthetic = ax.bar(bins[:-1]+0.25*binwidth,barSynthetic,width=0.5*binwidth,color='green')
+    ax.legend((scene[0],synthetic[0]),('scene','synthetic'))
+    ax.set_title('Normalized histogram of pixel gradients')
+    ax.set_xlim('Pixel gradient')
+    ax.set_ylim('PMF')
+    plt.tight_layout()
         
     plt.show()
     
 def edgeLength():
+    """
+    Using a hard-coded threshold value, do edge detection. 
+    Create normalized histograms for the training set of images.
+    """
 
-    thres = 4.0    
+    thres = 4.0
     
-    bins = np.linspace(0.0,400000,20)
-    barx = np.diff(bins)*0.5 + bins[:-1]
-    binwidth = np.mean(np.diff(bins))
+    sz = [540,960]
     
-    sz = [550,970]
-    
-    fig,ax = plt.subplots(2,1)
+    fig,ax = plt.subplots(2,1,figsize=(figwidth,figheight*2))
     
     valSynthetic = np.zeros((TrainingSize,))
     valScene = np.zeros((TrainingSize,))
@@ -663,7 +674,7 @@ def edgeLength():
         valScene[h] = len(np.where(np.abs(gra) > thres)[0])
     
     scenefit = stats.cauchy.fit(valScene)
-    syntheticfit = stats.norm.fit(valSynthetic)
+    syntheticfit = stats.cauchy.fit(valSynthetic)
     print( scenefit )
     print( syntheticfit )
     print( stats.norm.fit(valSynthetic) )
@@ -671,22 +682,62 @@ def edgeLength():
     bins = np.linspace(0.0,400000,10)
     barx = np.diff(bins)*0.5 + bins[:-1]
     binwidth = np.mean(np.diff(bins))
+    xpdf = np.linspace(bins[0],bins[-1],100)
     barScene = np.histogram(valScene,bins,normed=True)[0]
     
     ax[0].bar(bins[:-1],barScene,width=binwidth,color='blue')
     #ax[0].hist(valScene,rwidth=1,normed=True)
-    ax[0].plot(barx,stats.cauchy.pdf(barx,loc=scenefit[0],scale=scenefit[1]),'k-x')
-    ax[0].set_title('Edge length histograms')
+    ax[0].plot(xpdf,stats.cauchy.pdf(xpdf,loc=scenefit[0],scale=scenefit[1]),'k-',linewidth=2)
+    ax[0].set_xlim((bins[0],bins[-1]))
+    ax[0].set_ylabel('Scene')
+    ax[0].set_title('Normalized edge length histograms')
+    #ax[0].tick_params(labelsize=fontsize)
+    plt.tight_layout()
     
-    bins = np.linspace(0,100000,10)
+    bins = np.linspace(0,65000,10)
     barx = np.diff(bins)*0.5 + bins[:-1]
-    binwidth = np.mean(np.diff(bins))    
+    binwidth = np.mean(np.diff(bins))   
+    xpdf = np.linspace(bins[0],bins[-1],100)
     barSynthetic = np.histogram(valSynthetic,bins,normed=True)[0]
     ax[1].bar(bins[:-1],barSynthetic,width=binwidth,color='green')
-    ax[1].plot(barx,stats.norm.pdf(barx,loc=syntheticfit[0],scale=syntheticfit[1]),'k-x')
+    ax[1].plot(xpdf,stats.cauchy.pdf(xpdf,loc=syntheticfit[0],scale=syntheticfit[1]),'k-',linewidth=2)
+    ax[1].set_xlim((bins[0],bins[-1]))
+    ax[1].set_xlabel('Number of edges')
+    ax[1].set_ylabel('Synthetic')
+    plt.tight_layout()
     #ax[1].hist(valSynthetic,rwidth=1,normed=True)
         
     plt.show()
+    
+def edgeTrialIm(im,threshold=1.0):
+    """ Use the edge detection criterion to classify an image as synthetic (0)
+    or natural (1)
+    
+    Parameters
+    ----
+    im : 2D array
+        a greyscale image
+    threshold : float
+        the likelihood ratio == pi0/pi1
+    Returns
+    ----
+    out : bool
+        0 == synthetic, 1 == scene
+    likelihood : float
+        the likelihood ratio
+    z : float
+        the number of edge pixels
+    """
+    thres = 4.0
+    gra = np.gradient(im)[0]
+    count = len(np.where(np.abs(gra) > thres)[0])
+    p0 = stats.cauchy.pdf(count,scale=35760.8,loc=5377.61)
+    p1 = stats.cauchy.pdf(count,scale=141500,loc=40133.3)
+    likelihood = float(p1)/float(p0)
+    if likelihood >= threshold:
+        return (1,likelihood,count)
+    else:
+        return (0,likelihood,count)
     
 def trialEdgeLength():
     # null hypothesis: normal with scale=38192,loc = 8817
@@ -694,7 +745,7 @@ def trialEdgeLength():
 
     thres = 4.0    
         
-    sz = [550,970]
+    sz = [540,960]
         
     testingSize0 = 99-TrainingSize
     testingSize1 = len(SceneList)-TrainingSize
@@ -712,11 +763,13 @@ def trialEdgeLength():
         valScene[h] = len(np.where(np.abs(gra) > thres)[0])
     print(valSynthetic)
     print(valScene)
-    
-    p00 = stats.norm.pdf(valSynthetic, scale=38192,loc=8817)
-    p10 = stats.cauchy.pdf(valSynthetic,153595,45142)
-    p01 = stats.norm.pdf(valScene,scale=38192,loc=8817)
-    p11 = stats.cauchy.pdf(valScene,153595,45142)
+
+    # null hypothesis: synthetic    
+    p00 = stats.cauchy.pdf(valSynthetic,scale=35760.8,loc=5377.61)
+    p01 = stats.cauchy.pdf(valScene,scale=35760.8,loc=5377.61)
+    # test hypothesis: scene
+    p10 = stats.cauchy.pdf(valSynthetic,141500,40133.3)
+    p11 = stats.cauchy.pdf(valScene,141500,40133.3)
     
     l0 = p10/p00
     l1 = p11/p01
@@ -736,7 +789,49 @@ def trialEdgeLength():
     
     plt.show()
 
-    # load scenes
+def edgeTrialCompare():
+    """ Compare the likelihood ratios of the two data sets for different values
+    of the likelihood threshold
+    """
+    
+    thres1 = 1.0
+    # prior is prob(synthetic)/prob(scene)
+    thres2 = 99.0/float(len(SceneList))
+    
+    sz = (540,960)
+    
+    sceneLikelihoods = np.zeros((len(SceneList),))
+    xScene = np.zeros((len(SceneList),))
+    vScene = np.zeros((len(SceneList),))
+    for h in range(len(SceneList)):
+        im = im2intensity(loadScene(h+1,sz=sz))
+        (vScene[h],sceneLikelihoods[h],xScene[h]) = edgeTrialIm(im,thres2)
+        print(vScene[h],sceneLikelihoods[h],xScene[h])
+    syntheticLikelihoods = np.zeros((99,))
+    xSynthetic = np.zeros((99,))
+    vSynthetic = np.zeros((99,))
+    for h in range(99):
+        im = im2intensity(loadSynthetic(h+1,sz=sz))
+        (vSynthetic[h],syntheticLikelihoods[h],xSynthetic[h]) = edgeTrialIm(im,thres2)
+        print(vSynthetic[h],syntheticLikelihoods[h],xSynthetic[h])
+    print("%d false postives out of %d" % (np.sum(vSynthetic > 0),len(vSynthetic)))
+    print("%d false negatives out of %d" % (np.sum(vScene < 1),len(vScene)))
+    
+    fig,ax = plt.subplots(2,1,figsize=(figwidth,figheight*2))
+    ax[0].plot(xScene,sceneLikelihoods,'bd')
+    ax[0].plot([np.min(xScene),np.max(xScene)],[thres2,thres2],'k--')
+    ax[0].set_title('Likelihood test for scene data set')
+    ax[0].set_xlabel('Edges')
+    ax[0].set_ylabel('Likelihood ratio')
+    plt.tight_layout()
+    
+    ax[1].plot(xSynthetic,syntheticLikelihoods,'rs')
+    ax[1].plot([np.min(xSynthetic),np.max(xSynthetic)],[thres2,thres2],'k--')
+    ax[1].set_title('Likelihood test for synthetic data set')
+    ax[1].set_xlabel('Edges')
+    ax[1].set_ylabel('Likelihood ratio')
+    plt.tight_layout()
+    plt.show()
     
 def plotGradients():
     sz = [550,970]
@@ -773,8 +868,12 @@ if __name__ == '__main__':
     #testFFT()
     #trialFFT()
     #trialMeanGradient()
+
+    tryEdgeDetection()
     #edgeLength()
-    trialEdgeLength()
+    #trialEdgeLength()
+    #edgeTrialCompare()
+    
     #plotGradients()
     #trainIntensityHistogram()
     #trialIntensityHistogram(.528)
