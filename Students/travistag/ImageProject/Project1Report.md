@@ -14,6 +14,24 @@ If the observed distributions of alpha are such that the two distributions are w
 
 The methods described here exhibit an equivalent structure to that of the log likelihood ratio, and we know that this structure is optimal for a binary hypothesis testing problem. Even though the provided training sets are lopsided, we assume that the priors for each hypothesis are equal and do not consider them as part of our algorithm.
 
+For each image in the training set, the value of the feature was calculated.
+A histogram of feature values was constructed for images in both the real image and synthetic image set.
+A normal distribution can be fit to both sets.
+The real image set has a significant peak around a feature value of 0.014.
+However, the "tails" of this distribution are very long.
+Fitting a normal distribution to all data points does not capture the peak around 0.014.
+This distribution is shown with the dashed red line in the figure.
+Instead, feature values greater than 0.04 were considered to be outliers in this data set and a new normal distribution was constructed (solid red line).
+
+<img src="plots/model_distributions.png" alt="modeled pdfs" style="width: 600px;"/>
+
+The PDFs for H0 and H1 then having the following parameters:
+
+|         | H0           | H1  |
+| ------------- |:-------------:| :-----:|
+| Mean     | 0.0145 | 0.153 |
+| Std     | 0.00528      |   0.0306 |
+
 # 2. Algorithm Structure
 
 [Explain the feature here: sobel derivative, or most prevalent color or both]
