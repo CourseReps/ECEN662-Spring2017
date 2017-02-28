@@ -20,6 +20,11 @@ figheight = 2.8
 # fontsize
 fontsize = 12
 
+scale_scene = 52984.7
+loc_scene = 131700
+scale_synthetic = 5377.61
+loc_synthetic = 35760.8
+
 def tryEdgeDetection():
     """ Load the training set of scenes and synthetic images and plot
     histograms of the gradients for each case
@@ -139,8 +144,8 @@ def edgeTrialIm(im,threshold=1.0):
     thres = 4.0
     gra = np.gradient(im)[0]
     count = len(np.where(np.abs(gra) > thres)[0])
-    p0 = stats.cauchy.pdf(count,scale=35760.8,loc=5377.61)
-    p1 = stats.cauchy.pdf(count,scale=141500,loc=40133.3)
+    p0 = stats.cauchy.pdf(count,scale=scale_synthetic,loc=loc_synthetic)
+    p1 = stats.cauchy.pdf(count,scale=scale_scene,loc=loc_scene)
     likelihood = float(p1)/float(p0)
     if likelihood >= threshold:
         return (1,likelihood,count)
@@ -177,11 +182,11 @@ def trialEdgeLength():
         valScene[h] = len(np.where(np.abs(gra) > thres)[0])
 
     # null hypothesis: synthetic    
-    p00 = stats.cauchy.pdf(valSynthetic,scale=35760.8,loc=5377.61)
-    p01 = stats.cauchy.pdf(valScene,scale=35760.8,loc=5377.61)
+    p00 = stats.cauchy.pdf(valSynthetic,scale=scale_synthetic,loc=loc_synthetic)
+    p01 = stats.cauchy.pdf(valScene,scale=scale_synthetic,loc=loc_synthetic)
     # test hypothesis: scene
-    p10 = stats.cauchy.pdf(valSynthetic,141500,40133.3)
-    p11 = stats.cauchy.pdf(valScene,141500,40133.3)
+    p10 = stats.cauchy.pdf(valSynthetic,scale=scale_scene,loc=loc_scene)
+    p11 = stats.cauchy.pdf(valScene,scale=scale_scene,loc=loc_scene)
     
     l0 = p10/p00
     l1 = p11/p01
@@ -210,6 +215,7 @@ def edgeTrialCompare():
     
     # equal priors
     thres2 = 1.0
+    logthres2 = np.log(thres2)
     # unequal priors: prob(synthetic)/prob(scene)
     thres1 = 99.0/float(len(SceneList))
     
@@ -231,18 +237,18 @@ def edgeTrialCompare():
     print("%d false negatives out of %d" % (np.sum(vScene < 1),len(vScene)))
     
     fig,ax = plt.subplots(2,1,figsize=(figwidth,figheight*2))
-    ax[0].plot(xScene,sceneLikelihoods,'bd')
-    ax[0].plot([np.min(xScene),np.max(xScene)],[thres2,thres2],'k--')
+    ax[0].plot(xScene,np.log(sceneLikelihoods),'bd')
+    ax[0].plot([np.min(xScene),np.max(xScene)],[logthres2,logthres2],'k--')
     ax[0].set_title('Likelihood test for scene data set')
     ax[0].set_xlabel('Edges')
-    ax[0].set_ylabel('Likelihood ratio')
+    ax[0].set_ylabel('Log-likelihood ratio')
     plt.tight_layout()
     
-    ax[1].plot(xSynthetic,syntheticLikelihoods,'rs')
-    ax[1].plot([np.min(xSynthetic),np.max(xSynthetic)],[thres2,thres2],'k--')
+    ax[1].plot(xSynthetic,np.log(syntheticLikelihoods),'rs')
+    ax[1].plot([np.min(xSynthetic),np.max(xSynthetic)],[logthres2,logthres2],'k--')
     ax[1].set_title('Likelihood test for synthetic data set')
     ax[1].set_xlabel('Edges')
-    ax[1].set_ylabel('Likelihood ratio')
+    ax[1].set_ylabel('Log-likelihood ratio')
     plt.tight_layout()
     plt.show()
 
