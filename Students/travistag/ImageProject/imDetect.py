@@ -34,8 +34,8 @@ def classifyImage(m0, s0, m1, s1, img):
         return 1
 
 # approximate Guassian distribution for real images
-rmean = 0.015091
-rstd = 0.006736
+rmean = 0.014482
+rstd = 0.005275
 
 # approximate Guassian distribution for synethic images
 smean = 0.153275
