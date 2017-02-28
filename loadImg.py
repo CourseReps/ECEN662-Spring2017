@@ -40,6 +40,8 @@ FilePath = config.get('directory','filepath')
 # GLOBAL list of natural scenes - only load once
 SceneList = os.listdir(FilePath+'/TrainingSetScenes/')
 
+print("To use this file, the relative filepath to the root image directory must be: %s" % (FilePath))
+
 def loadImg(filepath,iname,sz=None):
     """Load an image from the data set
     
