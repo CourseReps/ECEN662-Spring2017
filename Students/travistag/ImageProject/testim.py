@@ -13,37 +13,26 @@ def normalizeHisto(h):
 	return ret
 
 
-rim = Image.open('TrainingSetScenes/1.jpg')
-sim = Image.open('TrainingSetSynthetic/image1.png')
 
-rhist = normalizeHisto(rim.convert(mode= 'L').histogram())
-shist = normalizeHisto(sim.convert(mode= 'L').histogram())
-plt.figure(1)
-plt.plot(np.arange(len(rhist)), rhist)
+realvals = []
+synthvals = []
 
-plt.figure(2)
-plt.plot(np.arange(len(shist)), shist)
-plt.show()
+for filename in os.listdir('./TrainingSetScenes/'):
+	cimage = Image.open('./TrainingSetScenes/'+str(filename))
+	cimage = cimage.convert(mode = 'L')
+	chist = normalizeHisto(list(cimage.histogram()))
+	realvals.append(max(chist))
+	print('R')
 
-# realvals = []
-# synthvals = []
+for filename in os.listdir('./TrainingSetSynthetic/'):
+	cimage = Image.open('./TrainingSetSynthetic/'+str(filename))
+	cimage = cimage.convert(mode = 'L')
+	chist = normalizeHisto(list(cimage.histogram()))
+	synthvals.append(max(chist))
+	print('S')
 
-# for filename in os.listdir('./TrainingSetScenes/'):
-# 	cimage = Image.open('./TrainingSetScenes/'+str(filename))
-# 	cimage = cimage.convert(mode = 'L')
-# 	chist = normalizeHisto(list(cimage.histogram()))
-# 	realvals.append(max(chist))
-# 	print('R')
+df = pd.DataFrame(realvals)
+dfs = pd.DataFrame(synthvals)
 
-# for filename in os.listdir('./TrainingSetSynthetic/'):
-# 	cimage = Image.open('./TrainingSetSynthetic/'+str(filename))
-# 	cimage = cimage.convert(mode = 'L')
-# 	chist = normalizeHisto(list(cimage.histogram()))
-# 	synthvals.append(max(chist))
-# 	print('S')
-
-# df = pd.DataFrame(realvals)
-# dfs = pd.DataFrame(synthvals)
-
-# df.to_csv('real.csv', index = False)
-# dfs.to_csv('synth.csv', index = False)
+df.to_csv('real.csv', index = False)
+dfs.to_csv('synth.csv', index = False)
