@@ -62,4 +62,4 @@ plt.ylabel("Probabilty of Feature Value")
 #plt.ylim(0,0.045)
 plt.show()
 
-plt.savefig("model_distributions.png",dpi=300,transparent=False,format="png")
+plt.savefig("model_distributions.pdf",dpi=300,transparent=False,format="pdf")
