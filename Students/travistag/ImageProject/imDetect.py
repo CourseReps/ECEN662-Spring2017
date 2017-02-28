@@ -49,8 +49,11 @@ direct = sys.argv[1]
 predictions = []
 for filename in os.listdir(direct):
 	im = Image.open(str(direct)+str(filename))
-	predictions.append(classifyImage(rmean, smean, rstd, sstd, im))
+	predictions.append(classifyImage(rmean, rstd, smean, sstd, im))
 
 # save predictions to file
 df = pd.DataFrame(predictions)
 df.to_csv('predictions.csv', index = False)
+
+print(len(predictions))
+print(sum(predictions))
