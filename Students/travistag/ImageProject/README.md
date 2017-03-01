@@ -53,7 +53,9 @@ This, of course, is assuming equal priors.
 # 3. Code
 
 Commented code is available in this directory. 
+
 The file featureExtract.py extracts the features from all the training images and stores them in separate csv files.
+
 The file imDetect.py takes in a directory as an argument and outputs a csv file with its predictions.
 
 # 4. Presentation of Results
