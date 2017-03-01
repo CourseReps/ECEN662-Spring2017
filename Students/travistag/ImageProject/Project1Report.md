@@ -34,16 +34,33 @@ The PDFs for H0 and H1 then having the following parameters:
 
 # 2. Algorithm Structure
 
-After trying a couple of image processing features, we settled on one that we thought had the right balance between computational efficiency and classification performance. The image is first converted to greyscale, and we then collect the respective intensity values of each pixel and create a histogram. This histogram is then normalized so that we now have, for each intensity bin, the percentage of the overall number of pixels that correspond to that intensity. Finally, the feature alpha is defined as the percentage of pixels comprised of the most common intensity value, i.e., the max value of the normalized histogram. This feature alpha is then computed for all the images in each of the two training data sets - real scenery and computer generated - so that we have distributions of alpha, f0 and f1, for each of the two hypotheses.
+After trying a couple of image processing features, we settled on one that we thought had the right balance between computational efficiency and classification performance. The image is first converted to greyscale, and we then collect the respective intensity values of each pixel and create a histogram. This histogram is then normalized so that we now have, for each intensity bin, the percentage of the overall number of pixels that correspond to that intensity. Finally, the feature alpha is defined as the percentage of pixels comprised of the most common intensity value, i.e., the max value of the normalized histogram. 
 
+Shown below is a plot of the intensity histograms for a randomly chosen real and synthetic image:
+
+<img src="plots/featurehistogram.png" alt="modeled pdfs" style="width: 600px;"/>
+
+Since the real image consists of more complex shading and textures, the distribution of pixel intensities is much more uniform than in the synthetic image, resulting in spikes in the synthetic image's distribution.
+This is why we believe this feature to be a logical choice to create a model with.
+So, the feature extracted from this real and synthetic image would be around 0.01 and 0.07, respectively.
+
+
+
+This feature alpha is then computed for all the images in each of the two training data sets - real scenery and computer generated - so that we have distributions of alpha, f0 and f1, for each of the two hypotheses.
 As alluded to before, we assume that the distribution of the percentage of most prevalent intensity in grayscale is Gaussian. Therefore, we calculate the mean and variance for each of the two distributions of alpha and fit two Gaussian waveforms around the observed alpha values from the two training sets. 
 
-Then for each new testing image, we calculate the feature alpha and then find the probability of this alpha value with respect to the Gaussian distribution f0. This represents the likelihood L0 that H0 is the true hypothesis. Similarly, we calculate L1 using the distribution f1 and the same alpha value. A decision of H0 (real image) is returned when L0 > L1, else a decision of H1 (computer generated image) is returned.
+Then for each new testing image, we calculate the feature alpha and then find the probability of this alpha value with respect to the Gaussian distribution f0. This represents the likelihood L0 that H0 is the true hypothesis, P(H0 | alpha). Similarly, we calculate L1 using the distribution f1 and the same alpha value. A decision of H0 (real image) is returned when L0 > L1, else a decision of H1 (computer generated image) is returned.
+This, of course, is assuming equal priors.
 
 # 3. Code
 
-[Include the code here]
+Commented code is available in this directory. The file testim.py extracts the features from all the training images and stores them in separate csv files.
+The file imDetect.py takes in a directory as an argument and outputs a csv file with its predicitons.
 
 # 4. Presentation of Results
 
-[Here we report accuracy, and also put in any plots that we generate from our data and summarize with any conclusions about what worked and what didn't work]
+When run on the original test sets, our detector correctly predicts 52/58 real images, and 99/99 synthetic images.
+This translates to a 10.3% false alarm rate and a 100% detection rate.
+
+One notable weakness of this detector is that it will not correctly predict any synthetic images that have been equalized.
+As this is a very common image-processing technique to a achieve a desired level of contrast, 
