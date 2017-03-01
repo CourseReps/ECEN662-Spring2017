@@ -10,8 +10,6 @@ The problem was modeled as a binary hypothesis testing problem, with the observa
 
 We assume that there is some image-related feature alpha such that, the set of values that alpha assumes given H0 is true is distinguishable and seperable from the set of values that alpha assumes when H1 is true. The distributions of values that alpha assumes for each hypothesis will be established using the provided training data sets. We can then compare the probabilities P(alpha|H0) and P(alpha|H1) and choose the greater one to be the likelier hypothesis. This will require fitting distributions around the observed values of alpha from the training set and using these distributions as the basis to calculate the two probabilities mentioned earlier. Depending on the feature, a reasonable assumption could be that the distribution is normal and we can simply find the mean and variance of the set of values of alpha from each training set (scenery vs. computer generated) and fit Gaussian distributions with these parameters on the observed alpha values from each set.
 
-If the observed distributions of alpha are such that the two distributions are well separated and have largely similar variances, we can assume that going from one hypothesis to the other is reflected by a monotonic trend in alpha. This will further simplify the hypothesis testing computation, as we can simply train a threshold value tau on the feature alpha such that (alpha >= tau) ===> H0 is true, else H1 is true.
-
 The methods described here exhibit an equivalent structure to that of the log likelihood ratio, and we know that this structure is optimal for a binary hypothesis testing problem. Even though the provided training sets are lopsided, we assume that the priors for each hypothesis are equal and do not consider them as part of our algorithm.
 
 For each image in the training set, the value of the feature was calculated.
@@ -55,12 +53,14 @@ This, of course, is assuming equal priors.
 # 3. Code
 
 Commented code is available in this directory. The file testim.py extracts the features from all the training images and stores them in separate csv files.
-The file imDetect.py takes in a directory as an argument and outputs a csv file with its predicitons.
+The file imDetect.py takes in a directory as an argument and outputs a csv file with its predictions.
 
 # 4. Presentation of Results
 
 When run on the original test sets, our detector correctly predicts 52/58 real images, and 99/99 synthetic images.
-This translates to a 10.3% false alarm rate and a 100% detection rate.
+This translates to a 10.3% false alarm rate and a 100% detection rate. Without the adjustment of the pdf to exclude outliers among the real images, 52/56 real images were identified correctly but the detection rate also took a hit to become 97.97%. 
+
+We surmised that the misclassifications were as a result of images in the scenery data set that were overly dark, or had an unusually sparse color distribution such as the picture of the duck in water. Therefore we feel it is suitable to go with the model that excluded these as outliers and correctly identified all the synthetic images.
 
 Using random real and synthetic images from the internet, our detector achieved rates of:
 
