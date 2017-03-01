@@ -36,11 +36,11 @@ The real image set has a significant peak around a feature value of 0.014.
 However, the "tails" of this distribution are very long.
 Fitting a normal distribution to all data points does not capture the peak around 0.014.
 This distribution is shown with the dashed red line in the figure.
-Instead, feature values greater than 0.04 were considered to be outliers in this data set and a new normal distribution was constructed (solid red line).
+Instead, feature values greater than 0.04 were considered to be outliers in this data set and a new normal distribution solid red line) was fit to the inliers.
 
 <img src="plots/model_distributions.png" alt="modeled pdfs" style="width: 600px;"/>
 
-The PDFs for H0 and H1 then having the following parameters:
+The PDFs for H0 and H1 then have the following parameters:
 
 |         | H0           | H1  |
 | ------------- |:-------------:| :-----:|
@@ -58,11 +58,9 @@ The file imDetect.py takes in a directory as an argument and outputs a csv file 
 # 4. Presentation of Results
 
 When run on the original test sets, our detector correctly predicts 52/58 real images, and 99/99 synthetic images.
-This translates to a 10.3% false alarm rate and a 100% detection rate. Without the adjustment of the pdf to exclude outliers among the real images, 52/56 real images were identified correctly but the detection rate also took a hit to become 97.97%.
+This translates to a 10.3% false alarm rate and a 100% detection rate.
 
 We surmised that the misclassifications were as a result of images in the scenery data set that were overly dark, or had an unusually sparse color distribution such as the picture of the duck in water. Therefore we feel it is suitable to go with the model that excluded these as outliers and correctly identified all the synthetic images.
-
-Using random real and synthetic images from the internet, our detector achieved rates of:
 
 One notable weakness of this detector is that it will not correctly predict any synthetic images that have been equalized.
 This is a very common image-processing technique to a achieve a desired level of contrast.
