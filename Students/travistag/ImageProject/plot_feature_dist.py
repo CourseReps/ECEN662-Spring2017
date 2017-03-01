@@ -16,6 +16,9 @@ dfr_inliers = pd.DataFrame(dfr_array)
 rmean = float(dfr_inliers.mean())
 rstd = float(dfr_inliers.std())
 
+rmean_outliers = float(dfr.mean())
+rstd_outliers = float(dfr.std())
+
 print("Real mean: %f\nReal std: %f" %(rmean, rstd))
 
 # get raw data for synethetic images
@@ -50,16 +53,18 @@ plt.hist(np.array(dfr).flatten(), 100, normed=1, facecolor=colors[0], alpha=0.75
 
 # plot modesl that fit data
 x=np.linspace(0.,1.,255)
-plt.plot(x,mlab.normpdf(x, smean, sstd),color=colors[1],lw=3,label="Synthetic Image Feature Model")
-plt.plot(x,mlab.normpdf(x, rmean, rstd),color=colors[0],lw=3,label="Real Image Feature Model")
+plt.plot(x,mlab.normpdf(x, smean, sstd),color=colors[1],lw=3,label="Synthetic Image Feature Model (H1)")
+plt.plot(x,mlab.normpdf(x, rmean, rstd),color=colors[0],lw=3,label="Real Image Feature Model (H0)")
+plt.plot(x,mlab.normpdf(x, rmean_outliers, rstd_outliers),color=colors[0],lw=2,ls="--",label="Real Image Feature Model - With Outliers")
+
 plt.legend()
 
 plt.ion()
 plt.grid()
 plt.xlim(0,0.25)
 plt.xlabel("Feature Value")
-plt.ylabel("Probabilty of Feature Value")
+plt.ylabel("Occurence of Feature Value")
 #plt.ylim(0,0.045)
 plt.show()
 
-plt.savefig("model_distributions.pdf",dpi=300,transparent=False,format="pdf")
+plt.savefig("model_distributions.png",dpi=300,transparent=False,format="png")
