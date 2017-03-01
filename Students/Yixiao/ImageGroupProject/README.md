@@ -18,7 +18,7 @@ Algorithm used in this project is focus on calculating the difference between th
 * Result
 False Positive rate:9%
 True Positive rate (Probability of detection): 74%
-# Appendix
+* Appendix
 Alternative Methods we've discussed:
 * Gradient (Not accurate when compared with grayscale)
 The image gradient is the vector $∇I = [I_{x}, I_{y}]^{T}$. The gradient magnitude is calculated by 
