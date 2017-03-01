@@ -4,6 +4,7 @@ Spyder Editor
 
 @author: fatadama
 @brief: load images and use numpy to compute the image gradients
+Dump of a whole mess of test code. See edgeMain.py for the code used to generate usable results.
 """
 
 import numpy as np
