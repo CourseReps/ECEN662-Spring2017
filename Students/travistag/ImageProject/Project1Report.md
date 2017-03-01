@@ -62,5 +62,9 @@ The file imDetect.py takes in a directory as an argument and outputs a csv file 
 When run on the original test sets, our detector correctly predicts 52/58 real images, and 99/99 synthetic images.
 This translates to a 10.3% false alarm rate and a 100% detection rate.
 
+Using random real and synthetic images from the internet, our detector achieved rates of:
+
 One notable weakness of this detector is that it will not correctly predict any synthetic images that have been equalized.
-As this is a very common image-processing technique to a achieve a desired level of contrast, 
+This is a very common image-processing technique to a achieve a desired level of contrast.
+
+
