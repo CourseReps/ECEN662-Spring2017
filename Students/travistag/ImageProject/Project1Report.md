@@ -52,7 +52,7 @@ This, of course, is assuming equal priors.
 
 # 3. Code
 
-Commented code is available in this directory. The file testim.py extracts the features from all the training images and stores them in separate csv files.
+Commented code is available in this directory. The file featureExtraction.py extracts the features from all the training images and stores them in separate csv files.
 The file imDetect.py takes in a directory as an argument and outputs a csv file with its predictions.
 
 # 4. Presentation of Results
@@ -62,5 +62,11 @@ This translates to a 10.3% false alarm rate and a 100% detection rate.
 
 We surmised that the misclassifications were as a result of images in the scenery data set that were overly dark, or had an unusually sparse color distribution such as the picture of the duck in water. Therefore we feel it is suitable to go with the model that excluded these as outliers and correctly identified all the synthetic images.
 
+
+Using random real and synthetic images from the internet, our detector achieved rates of: 0% false alarm rate, and 75% detection rate.
+The discrepancy here is likely due to the very regular nature of our synthetic training set; all of the images were generated using the same program and had the same general nature.
+When searching Google for synthetic images to test on, we collected a more diverse set of images, which the model had not been trained to deal with.
+Retraining with a more diverse training set might yield a more robust model.
+
 One notable weakness of this detector is that it will not correctly predict any synthetic images that have been equalized.
-This is a very common image-processing technique to a achieve a desired level of contrast.
+This is a very common image-processing technique to a achieve a desired level of contrast, so the detector would not correctly classify these images.
