@@ -13,7 +13,7 @@ def image_values(x):
     i = 0
     im_n = im_test.resize((basewidth, hsize), Image.ANTIALIAS)
     im_n = np.array(im_n.histogram())
-    im_n = im_n 
+    im_n = im_n /45000
     im_test_pdf = list(im_n[0:768])
     max_value = max(im_test_pdf)
     max_index = im_test_pdf.index(max_value)
@@ -22,7 +22,6 @@ def image_values(x):
 def real_test(x):
     x=image_values(x)
     print(x)
-    x=np.linspace(0,10000,500)
     h1=stats.norm.pdf(x,np.mean(real_values),np.var(real_values))
     h0=stats.norm.pdf(x,np.mean(fake_values),np.var(fake_values))
     if h1/h0>1:
