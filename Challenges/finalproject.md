@@ -2,11 +2,11 @@
 
 ### Possible Topics
 
-- Expectation Maximization (EM) Algorithm
-- Monte Carlo Markov Chain (MCMC) Methods
-- Kalman Filter / Extended Kalman Filter
-- Importance Sampling
-- Constrained Least Squares Problems (Sparse) / Compressed Sensing
-- Probabilistic Graphical Models / Belief Propagation / Message Passing
-- Inference on Markov Chains (Viterbi, Forward-Backward, Baum-Welch)
+1. Expectation Maximization (EM) Algorithm
+2. Monte Carlo Markov Chain (MCMC) Methods
+3. Kalman Filter / Extended Kalman Filter
+4. Importance Sampling
+5. Constrained Least Squares Problems (Sparse) / Compressed Sensing
+6. Probabilistic Graphical Models / Belief Propagation / Message Passing
+7. Inference on Markov Chains (Viterbi, Forward-Backward, Baum-Welch)
 
