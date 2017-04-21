@@ -25,6 +25,7 @@
 7. Inference on Markov Chains (Viterbi, Forward-Backward, Baum-Welch)
   * Austin Taghavi
   * Jyothsna Kurra
+  * Saurav Sahu
 8. Variational Inference, Learning, Boosting or something else pertinent that does not intersect with projects above.
 * Paul McVay?
 
