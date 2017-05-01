@@ -2,6 +2,11 @@
 
 ## Contents
 * Overall Summary of group work
-* Individual Summary for each group member
+  - GroupProjectSummary.ipynb
+* Individual Summary for each group member:
+  - EdgeDetectionSummary.ipynb
+  - GrayscaleIntensitySummary.ipynb
+  - ImageSharpnessSummary.ipynb
+  - RGBHistogramSummary.ipynb
 * Associated images and files
 
