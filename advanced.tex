@@ -48,7 +48,7 @@ The nonlinear functions can be expanded in two terms of a Taylor series approxim
 \end{equation}
 
 It is straightforward to show that the EKF equations can be found by modifying the linear Kalman filter equations as follows: (1) Replace the state prediction and measurement expectation terms by the nonlinear equations $\f$ and $\h$; (2) Replace the state and measurement influence matrices by the Jacobians of the nonlinear equations evaluated at the estimate ($\F(k)$ and $\H(k)$).
-For convenience to the reader, the derivation of the EKF equations is skipped; merely note that the mean and variance of the Kalman prediction and update steps are taken, and lead to the following results.
+For convenience to the reader, the derivation of the EKF equations is omitted; merely note that the mean and variance of the Kalman prediction and update steps are taken, and lead to the following results.
 The EKF prediction equations are as follows:
 
 \begin{equation}
@@ -73,7 +73,7 @@ The posterior estimate and variance equations are below, introducing the Kalman 
 \end{equation}
 \begin{equation}
 \boxed{
-\P(k) = \left( \ten{\mathbb{1}} - \ten{K}(k)\H(k) \right)\P^-(k)
+\P(k) = \left( \ten{\mathrm{I}} - \ten{K}(k)\H(k) \right)\P^-(k)
 }
 \end{equation}
 
@@ -85,7 +85,8 @@ Furthermore, it is known in general that the EKF may diverge if a ``good'' initi
 Nonetheless, the EKF remains popular for several reasons: (1) Its relatively low computational overhead make it suitable for systems with limited computing capability; (2) The EKF is an intuitive extension of the linear Kalman filter, and is easy to understand and implement; (3) For many types of systems, the EKF works well without the need to address the conditioning of the covariance estimate.
 
 To address some of the limitations of the EKF, the Unscented Kalman Filter (UKF) has been developed recently.
-The next section presents a brief overview of the UKF.
+%The next section presents a brief overview of the UKF.
+Next, a brief overview of the UKF is presented.
 
 \subsection{Unscented Kalman Filter}
 
@@ -97,8 +98,8 @@ The UKF theoretically obtains means and variances that are accurate to second or
 
 The idea underlying the UKF is now presented graphically.
 For brevity, we will restrict the discussion here to the high-level concept of the UKF.
-The equations governing the UKF algorithm are provided in the Appendix for reference.
-The filter begins with a state mean and variance prior, just as the EKF.
+The equations governing the UKF algorithm are provided in an appendix for reference.
+The filter begins with an estimate mean and variance prior, just as in the EKF.
 The mean and variance are then replaced with a particle approximation.
 The particles are not sampled randomly; rather, they are determined from the variance in such a way that the particles lie along the principal axes of the covariance ellipse.
 
@@ -131,7 +132,7 @@ The particles are not sampled randomly; rather, they are determined from the var
 	\label{fig:ukf_summary}
 \end{figure}
 
-A graphical representation of the UKF algorithm is shown in Fig. \ref{fig:ukf_summary}.
+A graphical representation of the UKF algorithm is shown in Fig. \ref{fig:ukf_summary} for a 2D random variable.
 In the initial step (Fig. \ref{fig:ukf1}), the 2D covariance ellipse is replaced by a particle approximation.
 Particles are placed at the mean, and along the positive and negative principal directions.
 For the 2D ellipse, this leads to five particles.
@@ -139,8 +140,8 @@ Then (Fig. \ref{fig:ukf2}), each of the particles is propagated until the next m
 The prediction mean and covariance are determined using a weighted average and weighted variance of the propagated particles.
 In Fig. \ref{fig:ukf3}, a measurement is taken (represented by an "X" in the graphic).
 The predicted measurement associated with each prediction particle is computed using the nonlinear measurement function.
-Each expectation of the measurement from each particle is compared against the particle values.
-The particle predictions are used to approximate a measurement expectation, measurement variance, and cross-covariance between the prediction state and measurement.
+The measurement is compared against the predicted measurement from the particle values.
+The particle predictions are used to approximate a predicted measurement, measurement variance, and cross-covariance between the prediction state and measurement, using weighted means and covariances.
 The Kalman gain is computed from these approximations and used to update the prediction mean and variance to a posterior estimate and error variance.
 This completes the standard UKF prediction and update cycle.
 In Fig. \ref{fig:ukf4}, five new particles are created from the posterior mean and variance, and the filter continues.
@@ -150,11 +151,12 @@ Now, we turn to a brief comparison of the EKF and UKF, from an application persp
 
 Properly implemented, the UKF forms an estimate to a nonlinear process that is at least as good as an EKF estimate.
 Due to the higher order approximation implicit in the UKF, it may converge in some cases where an EKF fails.
-There is often a tradeoff in terms of computational cost; especially for long state vectors, the EKF algorithm can often exploit matrix sparsity and other manipulations to reduce the number of operations required.
-The UKF relies upon the nonlinear propagation and measurement expectation of sigma points and there are fewer opportunities to speed up the computation. 
+There is often a tradeoff in terms of computational cost; especially for long state vectors, the EKF algorithm can often exploit matrix sparsity and other linear algebra manipulations to reduce the number of operations required.
+The UKF relies upon the nonlinear propagation and measurement expectation of sigma points, and there are fewer opportunities to speed up the computation. 
 However, it is true that the UKF and EKF have the same order of computational complexity\cite{wan2000}, making either option much more tractable than methods like particle filters.
 The UKF is also somewhat less intuitive for those with a background in analytical estimation.
-Finally, an appropriate choice of the tuning parameters $\beta$, $\kappa$, and $\alpha$ may not always be obvious, and does not appear to be discussed frequently in the literature.
+Finally, although we have not discussed the UKF tuning parameters in this section, they exist and an appropriate choice may not always be obvious.
+There don't appear to be well-known automatic or simple heuristic ways to choose those parameters in the literature.
 
 This section has presented the Extended and Unscented Kalman Filters for nonlinear state estimation.
 The following section briefly summarizes the overall report.

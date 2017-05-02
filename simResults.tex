@@ -54,13 +54,14 @@ Python simulation results are now presented.
 \end{figure}
 
 For brevity, we show only the filter tracking errors (Fig. \ref{fig:kf_errors}) and consistency histograms (Fig. \ref{fig:kf_consistency}).
-The tracking errors are simply the difference between the filter states and true states at each moment in time.
+Fig. \ref{fig:kf_errors} shows the difference between the filter states and true states at each moment in time.
 Three times the square root of the covariance diagonal elements is plotted as a metric of filter accuracy and consistency.
+(For a independent random variables, these would be $3\sigma$ bounds; in this case, we consider these bounds as approximations, which retain physical significance.)
 The filter appears to be somewhat conservative, since the errors are typically less than the $3\sigma$ approximations.
 However, the $x$ position history shows a bias.
-No doubt this bias is largely attributable to the use of first-order discretized integration.
+This bias likely is largely attributable to the use of first-order discretized integration.
 
-For Fig. \ref{fig:kf_consistency}, the filter errors are regularized to states $\vec{z}$ having expected mean and covariance $0,1$: $\vec{z} \equiv \ten{P}^{1/2}(\vec{x}-\vec{\hat{x}})$.
+For Fig. \ref{fig:kf_consistency}, the filter errors are regularized to states $\vec{z}$ having expected mean and covariance $0,1$, according to the following transform: $\vec{z}(k) \equiv \ten{P(k)}^{1/2}(\vec{x}(k)-\vec{\hat{x}}(k))$.
 If the filter is consistent, the regularized states $\vec{z}$ should be zero-mean and have unit variance.
 In Fig. \ref{fig:kf_consistency}, histograms of the regularized states are plotted.
 Note that states $z_1,z_2,z_3,z_4$ correspond approximately to x position, x velocity, y position, and y velocity.
