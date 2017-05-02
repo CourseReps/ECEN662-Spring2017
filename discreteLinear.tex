@@ -1,6 +1,6 @@
 \section{The Linear Discrete Kalman Filter}
 
-The original Kalman filter is a filtering algorithm that combines a linear discrete dynamic model with a linear discrete measurement model.
+The original Kalman filter considers a linear discrete dynamic model and a linear discrete measurement model.
 
 \subsection{System Models}
 The discrete dynamic model relates the state at some time $ k $ to the state at the current time $ k+1 $.
@@ -99,7 +99,7 @@ Solving for $\Kk$
 \end{equation}
 
 This choice of $\Kk $ minimizes the MSE for a linear estimator.
-
+That is, the Kalman filter provides the optimal \textit{linear} MMSE estimate.
 
 If the initial state is sampled from a normal distribution, the state remains linear because a Gaussian random variable that undergoes linear transformations remains linear. 
 In this case, $\xk$ and $\yktilde$ are jointly Guassian
