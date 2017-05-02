@@ -1,0 +1,56 @@
+% Daniel definitions
+\def \rmT {\mathrm{T}}
+\def \trans {^\rmT} 
+\def \prior {^-}
+\def \post {^+}
+\def \k {(k)}
+\def \kone {(k+1)}
+\def \x {\mathrm{\mathbf{x}}}
+\def \v {\mathrm{\mathbf{v}}}
+\def \y {\mathrm{\mathbf{y}}}
+\def \ytilde {\tilde\y}
+\def \w {\mathrm{\mathbf{w}}}
+\def \u {\mathrm{\mathbf{u}}}
+\def \xhat {\hat{\x}}
+\def \xtilde {\tilde{\x}}
+\def \xkhat {\xhat\k }
+\def \ykhat {\hat\y\k }
+\def \xkonehat {\xhat\kone }
+\def \xk {\x\k }
+\def \xprior {\hat\x\prior }
+\def \xpost {\hat\x\post }
+\def \yktilde {\ytilde\k }
+\def \uk {\u\k }
+\def \wk {\w\k }
+\def \vk {\v\k }
+\def \xkone {\x\kone }
+\def \Phik {\Phi\k }
+\def \Qk {\mathrm{Q}\k }
+\def \Kk {\mathrm{K}\k }
+\def \Hk {\mathrm{H}\k }
+\def \Pk {\mathrm{P}_{xx,k}}
+\def \Pxx {\mathrm{P}_{xx}}
+\def \Pyy {\mathrm{P}_{yy}}
+\def \Pxy {\mathrm{P}_{xy}}
+\def \Gammak {\Gamma\k }
+\def \Rk {\mathrm{R}\k }
+\def \Upsilonk {\Upsilon\k }
+\def \terma {\big(\mathrm{I} -\Kk\Hk\big)}
+
+% Tim macros
+\newcommand{\ddarg}[2]{\ensuremath{\frac{d#1}{d#2}}}
+\newcommand{\pparg}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+
+\newcommand{\pip}{\ensuremath{\Bigg |}}
+\renewcommand{\vec}[1]{\ensuremath{\mathrm{\mathbf{#1}}}}
+\newcommand{\vecin}[2]{\ensuremath{\mathrm{\mathbf{#1}}}(#2)}
+\newcommand{\ten}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\symvec}[1]{\ensuremath{\mathrm{\boldsymbol{#1}}}}
+
+\newcommand{\f}{{\symvec{\phi}}}
+\newcommand{\F}{{\ten{\Phi}}}
+\newcommand{\G}{{\ten{G}}}
+\renewcommand{\H}{{\ten{\Upsilon}}}
+\newcommand{\h}{{\symvec{\upsilon}}}
+\newcommand{\B}{{\ten{\Gamma}}}
+\renewcommand{\P}{{\ten{P_{xx}}}}

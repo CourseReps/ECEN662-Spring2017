@@ -1,0 +1,167 @@
+\section{The Linear Discrete Kalman Filter}
+
+The original Kalman filter considers a linear discrete dynamic model and a linear discrete measurement model.
+
+\subsection{System Models}
+The discrete dynamic model relates the state at some time $ k $ to the state at the current time $ k+1 $.
+This is also known as the process model.
+
+\begin{equation}
+\xkone=\Phik\xk+\Gammak\uk + \Upsilonk\wk
+\end{equation}
+$\xk$ is some state of interest at time k.
+$\uk$ is a deterministic input vector.
+$\wk $ is zero-mean Guassian white-noise process with 
+\begin{equation}
+E[\wk\wk]=\Qk 
+\end{equation}
+\begin{equation}
+E[\wk\w(j)]=\mathbf{0}  \quad j \neq k
+\end{equation}
+
+It is useful to find the first and second moments of these models.
+\begin{equation}
+E[\xkone]=\xprior\kone  =\Phik\xkhat+\Gammak\uk
+\end{equation}
+\begin{equation}
+Cov[\xkone,\xkone]=\Pxx\prior\kone =\Phik\Pxx\k\Phik\trans +\Upsilonk\Qk\Upsilonk\trans 
+\end{equation}
+
+$ \xprior\kone $ and $ \Pxx\prior\kone $ can be used to predict the state at time $ k+1 $ given the state at $ k$.
+
+A measurement vector $ \yktilde $ is available.
+$ \yktilde $ relates to the state according to 
+
+\begin{equation}
+\yktilde=\Hk\xk+\vk
+\end{equation}
+\begin{equation}
+E[\vk\vk]=\Rk 
+\end{equation}
+
+A measurement estimate $ \ykhat $ is found by taking the expectation of this model
+
+\begin{equation}
+E[\yktilde]=\hat\y\k=\Hk\xprior\k
+\end{equation}
+
+It is also useful to define and determine the second moments of this model
+\begin{equation}
+Cov[\yktilde,\yktilde]=\Pyy\k=\Hk\Pxx\prior\k\Hk\trans+\Rk
+\end{equation}
+\begin{equation}
+Cov[\xk,\yktilde]=\Pxy\k=\Pxx\prior\k\Hk
+\end{equation}
+
+\subsection{Minimum Mean Square}
+When a measurement $ \yktilde $ becomes available, the process model can be used to predict, or propagate, the state estimate from the previous time to the current time.
+This is known as the prior estimate $ \xprior\k $.
+It is desirable to update the state estimate $ \xprior\k $ using the information about the state provided by the measurement. 
+This updated measurement, $ \xpost\k $, is known as the posterior estimate.
+
+The update equations will first be developed by assuming an estimator in the form of a sequential linear estimator with a gain $ \Kk $ and then finding $ \Kk $ to minimize the mean square error (MSE).
+It will then be shown that if the initial state is Guassian then this estimator is also the minimum mean square error (MMSE) estimator.
+
+The updated state $ \xpost\k $ estimator is assumed to be in the form of a linear sequential estimator. 
+\begin{equation}
+\xpost\k = \xprior\k + \Kk\big(\yktilde-\ykhat\big)
+\end{equation}
+
+It is necessary to find $ \Kk $ so that $ \xhat\k\post $ minimizes some performance criteria. 
+The mean square error is a natural choice. 
+\begin{equation}
+ MSE=\Pxx\post\k=E\big[\big(\xk-\xpost\k\big)\big(\xk-\xpost\k\big)\trans\big]
+\end{equation}
+
+By using the previously defined value of  $ \xprior\k $, the error $ \big(\xk-\xpost\k\big) $ can be written as
+\begin{equation}
+\xk-\xpost\k = \terma \big(\xk-\xkhat\big) + \Kk\vk
+\end{equation}
+
+After expanding out the terms of the square error and finding its expected value
+\begin{equation}
+\Pxx\post\k=\terma \Pxx\prior\k \terma \trans+\Kk\Rk\Kk
+\end{equation}
+
+To minimize MSE, it is equivalent to minimize the trace of $\Pxx\post$.
+\begin{equation}
+J=trace(\Pxx\post)
+\end{equation}
+
+Finding the partial derivative of $ J $ with respect to $ \Kk $
+\begin{equation}
+\frac{\partial J}{\partial \Kk} = 0 = -2\terma \Pxx\prior\k\Hk\trans+2\Kk\Rk
+\end{equation}
+
+Solving for $\Kk$
+\begin{equation}
+\Kk =\Pxx\prior\k\Hk\trans\big(\Hk\Pxx\prior\k\Hk\trans+\Rk\big)^{-1} 
+\end{equation}
+
+This choice of $\Kk $ minimizes the MSE for a linear estimator.
+That is, the Kalman filter provides the optimal \textit{linear} MMSE estimate.
+
+If the initial state is sampled from a normal distribution, the state remains linear because a Gaussian random variable that undergoes linear transformations remains linear. 
+In this case, $\xk$ and $\yktilde$ are jointly Guassian
+
+The MMSE estimator is known to be 
+\begin{equation}
+\xhat_{MMSE}\k=E[\xk|\yktilde]
+\end{equation}
+
+It is well known that for jointly Gaussian $ \xk $ and $ \yktilde $ 
+\begin{equation}
+E[\xk|\yktilde]=E[\xk]+\Pxy\k\Pyy^{-1}\k\big(\yktilde-E[\yktilde]\big)
+\end{equation}
+
+Having previously defined each term of this equation in terms of the process and measurement model, it can be re-written as 
+\begin{equation}
+E[\xk|\yktilde]=\xprior\k+\bigg(\Pxx\prior\k\Hk\trans\big(\Hk\Pxx\prior\k\Hk\trans+\Rk\big)^{-1}\bigg) \big(\yktilde-\Hk\xprior\k\big)
+\end{equation}
+\begin{equation}
+E[\xk|\yktilde]=\xprior\k+\Kk \big(\yktilde-\Hk\xprior\k\big)
+\end{equation}
+
+Thus, for a Gaussian state prior, the Kalman filter is the MMSE estimator. 
+
+\subsection{Algorithm Summary}
+
+The linear discrete Kalman filter can be described and implemented in three distinct stages.
+
+Initialize:
+\begin{equation}
+\xhat(t_0)=\xhat_0 
+\end{equation}
+\begin{equation}
+\Pxx(t_0)=Cov[\xhat_0,\xhat_0]
+\end{equation}
+
+Predict:
+\begin{equation}
+\xprior\kone  =\Phik\xkhat+\Gammak\uk
+\end{equation}
+\begin{equation}
+\Pxx\prior\kone =\Phik\Pxx\k\Phik\trans +\Upsilonk\Qk\Upsilonk\trans
+\end{equation}
+
+Update:
+\begin{equation}
+\Kk =\Pxx\prior\k\Hk\trans\big(\Hk\Pxx\prior\k\Hk\trans+\Rk\big)^{-1}
+\end{equation}
+\begin{equation}
+\xpost\k = \xprior\k + \Kk\big(\yktilde-\ykhat\big) 
+\end{equation}
+\begin{equation}
+\Pxx\post\k=\big(\mathrm{I}-\Kk\Hk\big)\Pxx\prior\k
+\end{equation}
+
+Using the models:
+\begin{equation}
+\xkone=\Phik\xk+\Gammak\uk + \Upsilonk\wk \qquad \wk\sim N\big(\mathbf{0},\Qk\big)
+\end{equation}
+\begin{equation}
+\yktilde=\Hk\xk+\vk \qquad \vk\sim N\big(\mathbf{0},\Rk\big)
+\end{equation}
+
+This section has introduced the linear Kalman Filter and justified its optimality in a MMSE sense.
+The next section presents a numerical implementation of the Kalman Filter.
