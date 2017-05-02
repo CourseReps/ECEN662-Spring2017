@@ -1,0 +1,70 @@
+\documentclass[12pt,draftcls,onecolumn]{IEEEtran}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage[margin=1in]{geometry}
+\usepackage{ulem}
+\usepackage{subcaption}
+
+\input{preamble}
+
+\author{Kiran Vishnu, Daniel Whitten, Tim Woodbury}
+\title{ECEN 662 Group Report: Kalman Filter Overview}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The Kalman filter has a storied history in the estimation of time-correlated processes.
+In Kalman's original work, the filter estimate was shown to be optimal in a minimum mean square error sense for Gaussian systems, and it was shown that the optimal estimate for a sequence of measurements could be realized by operating the filter sequentially, treating only one measurement at a time.
+In this work, the linear Kalman filter is reviewed.
+A simple numerical example is presented to demonstrate the implementation of the filter.
+Subsequently, a discussion of two extensions of the Kalman filter to nonlinear systems is given.
+These methods are the Extended Kalman Filter, in which the nonlinear system is replaced by a two-term Taylor series expansion, and the Unscented Kalman Filter, in which estimate distribution is approximated by deterministically defined particles.
+The equations governing the nonlinear approximations are given, and the two filters are discussed at a high level.
+\end{abstract}
+
+\section{Introduction}
+
+The Kalman filter's origins trace back to 1960 to Kalman's distinguished work \cite{kalman1960}.
+The contribution of the paper is difficult to overstate; few other methods have received so much attention, or been applied to so many diverse problems.
+Kalman showed that the optimal filter for a linear system with Gaussian forcing could be expressed as a sequential linear function of a prior and measurements.
+As a consequence, the optimal estimate at time $k$ given all the measurements at $t = 0, 1, \dots, k-1$ is equivalent to the optimal estimate at time $k$ given the measurement at $k-1$ and the optimal estimate at time $k-1$.
+This has profound implications in terms of data reduction and, in an era of relatively limited computer memory, enabled many online estimation problems to be solved.
+
+Many practical systems of interest are nonlinear, state-dependent processes.
+It has long been desired to extend the utility and simplicity of the Kalman filter to such systems.
+Unfortunately, the optimal estimate for nonlinear systems in general is intractable.
+Two popular approaches to approximate the Kalman filter for nonlinear systems are the Extended Kalman Filter (EKF) and the Unscented Kalman Filter (UKF).
+The EKF is a classic approach in which the Kalman Filter is linearized about a prior state at each cycle of prediction and update.
+The EKF has been widely used and has many attactive qualities, but it is known to perform poorly for certain types of problems.
+The UKF replaces the prior state and covariance by a particle approximation.
+However, unlike in other particle filters, the UKF points are deterministic functions of the prior, and the number of points is of the same order as the size of the state vector.
+The result is a nonlinear estimate that better approximates the true system statistics than the EKF, at a typically higher computational cost.
+
+In this document, a short derivation of the Kalman Filter from a dynamic systems perspective is given.
+A brief simulation example is shown, demonstrating the simplicity of the filter.
+Subsequently, a discussion of the EKF and UKF including the governing equations for each case is presented.
+
+\input{discreteLinear}
+
+\input{simResults}
+
+\input{advanced}
+
+\section{Summary}
+
+This report has provided background and the underlying algorithm associated with the classical Kalman Filter.
+A simple numerical implementation on a linear system has been realized and results shown.
+Subsequently, a discussion of two extensions of the Kalman Filter to nonlinear systems have been presented: the Extended Kalman Filter and the Unsceneted Kalman Filter.
+
+\nocite{kay1993,wan2000,julier1997,woodbury2015,kalman1960,crassidis2011}
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\appendix
+\input{appendix_ukf}
+
+\end{document}
